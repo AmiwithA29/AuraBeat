@@ -42,23 +42,23 @@
 
   <style>
     body {
-      background-color: #121212;
+      background-color: #0d0d11;
       color: #ffffff;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       overflow-x: hidden;
     }
 
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #121212; }
+    ::-webkit-scrollbar-track { background: #0d0d11; }
     ::-webkit-scrollbar-thumb { background: #282828; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #3e3e3e; }
 
     .spotify-card {
-      background-color: #181818;
+      background-color: #16161a;
       transition: background-color 0.25s ease, transform 0.25s ease;
     }
     .spotify-card:hover {
-      background-color: #242424;
+      background-color: #202026;
     }
 
     .play-float-btn {
@@ -70,9 +70,87 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* LIVE SMOKY GRADIENT AMBIENCE */
+    .smoke-layer {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(130px);
+      pointer-events: none;
+      will-change: transform, opacity;
+      mix-blend-mode: screen;
+    }
+    .smoke-1 {
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, #2d2a3b 0%, #171520 60%, transparent 80%);
+      top: -15%;
+      left: 5%;
+      opacity: 0.14;
+      animation: smokeFloat1 28s ease-in-out infinite alternate;
+    }
+    .smoke-2 {
+      width: 800px;
+      height: 750px;
+      background: radial-gradient(circle, #2a1c25 0%, #161016 55%, transparent 80%);
+      top: 30%;
+      right: -10%;
+      opacity: 0.13;
+      animation: smokeFloat2 32s ease-in-out infinite alternate;
+    }
+    .smoke-3 {
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(circle, #1a2333 0%, #0f1520 60%, transparent 80%);
+      bottom: -10%;
+      left: 20%;
+      opacity: 0.12;
+      animation: smokeFloat3 26s ease-in-out infinite alternate;
+    }
+    .smoke-4 {
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(255, 77, 109, 0.3) 0%, rgba(255, 77, 109, 0.05) 55%, transparent 80%);
+      top: 15%;
+      left: 35%;
+      opacity: 0.08;
+      transition: background 1.5s ease;
+      animation: smokeFloat4 22s ease-in-out infinite alternate;
+    }
+
+    @keyframes smokeFloat1 {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.11; }
+      50% { transform: translate(70px, 50px) scale(1.15) rotate(35deg); opacity: 0.16; }
+      100% { transform: translate(-30px, 80px) scale(0.95) rotate(70deg); opacity: 0.12; }
+    }
+    @keyframes smokeFloat2 {
+      0% { transform: translate(0, 0) scale(1.05) rotate(0deg); opacity: 0.12; }
+      50% { transform: translate(-80px, -40px) scale(0.92) rotate(-30deg); opacity: 0.17; }
+      100% { transform: translate(50px, -70px) scale(1.15) rotate(50deg); opacity: 0.11; }
+    }
+    @keyframes smokeFloat3 {
+      0% { transform: translate(0, 0) scale(0.95) rotate(0deg); opacity: 0.09; }
+      50% { transform: translate(-60px, -60px) scale(1.18) rotate(30deg); opacity: 0.15; }
+      100% { transform: translate(40px, -20px) scale(1) rotate(-35deg); opacity: 0.10; }
+    }
+    @keyframes smokeFloat4 {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.06; }
+      50% { transform: translate(50px, -30px) scale(1.22); opacity: 0.11; }
+      100% { transform: translate(-40px, 40px) scale(0.95); opacity: 0.07; }
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col bg-[#121212] text-white selection:bg-[#ff4d6d]/30 selection:text-white">
+<body class="min-h-screen flex flex-col bg-[#0d0d11] text-white selection:bg-[#ff4d6d]/30 selection:text-white relative">
+
+  <!-- LIVE SMOKY GRADIENT BACKGROUND (LOW OPACITY & SUBTLE) -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-[#0d0d11]">
+    <div class="smoke-layer smoke-1"></div>
+    <div class="smoke-layer smoke-2"></div>
+    <div class="smoke-layer smoke-3"></div>
+    <div id="live-mood-smoke" class="smoke-layer smoke-4"></div>
+    <!-- Soft Vignette overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0d0d11]/40 via-transparent to-[#0d0d11]/80"></div>
+  </div>
 
   <!-- HIDDEN AUDIO ENGINES & CANVAS -->
   <audio id="global-audio" preload="auto"></audio>
@@ -910,6 +988,12 @@
         
         // Update Navbar badge
         document.getElementById('nav-mood-badge').textContent = mood.emoji + ' ' + mood.title;
+
+        // Subtle live smoky tint update
+        const smokeEl = document.getElementById('live-mood-smoke');
+        if (smokeEl) {
+          smokeEl.style.background = `radial-gradient(circle, ${mood.accent}33 0%, ${mood.accent}0d 55%, transparent 80%)`;
+        }
 
         // Update Empathetic Note Card
         document.getElementById('note-emoji-avatar').textContent = mood.emoji;
