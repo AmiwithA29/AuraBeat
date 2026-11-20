@@ -1,273 +1,66 @@
-# MoodBasedMusicProject
-The project is primarily designed for academic demonstration but allows scalable extension. It highlights practical implementation of JSP, JDBC, Servlets, DAO pattern, MVC architecture, database concepts, and flow control using Java-based web technologies. 
-# 🎵 Mood-Based Music Recommendation Web App  
-(Java Servlets + JSP + JDBC + MYSQl + DAO + MVC)
+<div align="center">
+  <h1>🎧 AuraMood — Music & Books Curated To Heal Your Vibe</h1>
+  <p>
+    <strong>An AI-powered, mood-adaptive web platform that reads facial expressions via webcam, speaks empathetic voice notes, and curates personalized music & audiobooks.</strong>
+  </p>
+
+  <p>
+    <img src="https://img.shields.io/badge/Frontend-HTML5%20%7C%20CSS3%20%7C%20TypeScript-007ACC?style=for-the-badge" />
+    <img src="https://img.shields.io/badge/Backend-Firebase%20%26%20REST%20APIs-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" />
+    <img src="https://img.shields.io/badge/AI%20Vision-Webcam%20Mood%20Analysis-FF4B6E?style=for-the-badge" />
+    <img src="https://img.shields.io/badge/Audio-Web%20Speech%20%26%20Streaming-1DB954?style=for-the-badge" />
+  </p>
+</div>
 
 ---
 
-## 📌 Overview
-This repository contains a Java-based web application that recommends songs based on user mood. It demonstrates **MVC architecture**, **Servlet lifecycle**, **DAO pattern**, and optional **database/API integration**.  
-Designed for **academic project submission with scalable structure**.
+## 📖 Website Overview (Parichay)
+
+**AuraMood** is designed as a therapeutic, mood-responsive digital sanctuary. Instead of forcing users to manually search through endless playlists when feeling overwhelmed or distracted, AuraMood uses a **10-Second Facial Mood Scan** via the user's webcam to detect emotional states with confidence scoring[span_2](start_span)[span_2](end_span).
+
+Once the mood is identified (or manually chosen), the platform's **AI Companion** speaks a natural, comforting voice note and pairs **1 tailored song** with **1 uplifting audiobook**—all playable through a persistent, lossless-style bottom media player[span_3](start_span)[span_3](end_span).
 
 ---
 
-## 📂 Included for Review
-- `src/` – Complete Java source code (Servlet, Service, DAO, Model)  
-- `WebContent/` – JSP pages (UI)  
-- `WEB-INF/web.xml` – Deployment descriptor  
-- `WEB-INF/lib/` – Required JARs (e.g., json-20210307.jar)  
-- `project_documentation.pdf` – Theory, Flowchart, UML, ER Diagram  
-- `README.md` – (this file)
+## ✨ Key Features
+
+- **📸 10-Second Facial Mood Analysis:** Real-time webcam emotion scanning with confidence metrics (e.g., *96.8% Confidence*)[span_4](start_span)[span_4](end_span).
+- **🎛️ Instant Manual Mood Overrides:** One-click vibe switching across 5 core emotional states:
+  - `Low & Healing` | `Happy` | `Calm & Chill` | `Stressed` | `Deep Focus`[span_5](start_span)[span_5](end_span)
+- **🗣️ AI Voice Companion:** Synthesized natural voice notes (`AI Voice: ON/OFF` toggle + `Replay Voice Note`) tailored to comfort or energize the user[span_6](start_span)[span_6](end_span).
+- **🎵 Dual-Media Curation (Music + Audiobooks):** Simultaneously pairs mood-matched music tracks with uplifting audiobooks[span_7](start_span)[span_7](end_span).
+- **📚 Personal Library & Guest Mode:** Save favorite tracks and audiobooks to `Your Library` with seamless Guest or authenticated Firebase user sessions[span_8](start_span)[span_8](end_span).
+- **🎚️ Persistent Bottom Media Player:** Sleek floating audio bar featuring album artwork, interactive timeline scrubber, playback controls, and `Lossless 432Hz` audio badge[span_9](start_span)[span_9](end_span).
 
 ---
 
-## 🛠 Technologies Used
-| Layer | Technology |
-|-------|------------|
-| Frontend | JSP (`index.jsp`, `result.jsp`) |
-| Controller | Java Servlet (`MoodServlet.java`) |
-| Business Logic | `MoodService.java` |
-| Data Access | `SongDAO.java` |
-| Model | `Song.java` |
-| Optional DB | MySQL (JDBC Driver) |
-| API Parsing | `org.json` |
-| Deployment | WAR (Tomcat / Servlet 6.0) |
+## 🛠️ Tech Stack & Tools Used
+
+| Layer | Technologies & APIs | Purpose |
+| :--- | :--- | :--- |
+| **Frontend & UI** | HTML5, Modern CSS3 (Dark Glassmorphism), TypeScript / JavaScript | Responsive dark-mode UI, animated scanner ring, and interactive player controls[span_10](start_span)[span_10](end_span) |
+| **AI & Computer Vision** | Browser MediaDevices API (`getUserMedia`), Facial Emotion Recognition (`face-api.js`) | 10-second live webcam capture and facial expression classification[span_11](start_span)[span_11](end_span) |
+| **Voice Synthesis** | Web Speech API (`SpeechSynthesis`) | Real-time AI companion voice notes and playback controls[span_12](start_span)[span_12](end_span) |
+| **Backend & Database** | Firebase (Authentication & Cloud Firestore) | User/Guest state management and persistent `Your Library` storage[span_13](start_span)[span_13](end_span) |
+| **Media & Content** | Music Streaming & Audio APIs, Curated Audiobook Metadata | Fetching track artwork, audio streams, and mood-paired books[span_14](start_span)[span_14](end_span) |
 
 ---
 
-## 📁 Project Structure
-  
-MoodBasedMusicProject/
-├── src/
-│   ├── model/
-│   │   └── Song.java
-│   ├── dao/
-│   │   └── SongDAO.java
-│   ├── service/
-│   │   └── MoodService.java
-│   └── servlet/
-│       └── MoodServlet.java
-│
-├── WebContent/
-│   ├── index.jsp
-│   └── result.jsp
-│
-└── WEB-INF/
-    ├── web.xml
-    └── lib/
-        └── json-20210307.jar
+## ⚙️ How It Works (System Flow)
 
----
-
-## Flowchart -
-
-+------------------+
-|      User        |
-+------------------+
-          |
-          v
-+------------------+
-|   index.jsp      |
-|  (Enter Mood)    |
-+------------------+
-          |
-          v
-+------------------+
-|   MoodServlet    |
-|  (Controller)    |
-+------------------+
-          |
-          v
-+------------------+
-|   MoodService    |
-| (Business Logic) |
-+------------------+
-          |
-          v
-+------------------+
-|    SongDAO       |
-| (Data Access)    |
-+------------------+
-          |
-          v
-+------------------+
-|     JDBC Layer   |
-| (DriverManager / |
-|   DataSource)    |
-+------------------+
-          |
-          v
-+------------------+
-|   Database (SQL) |
-|  SONG Table      |
-+------------------+
-          |
-          v
-+------------------+
-|   result.jsp     |
-| (Display Songs)  |
-+------------------+
-          |
-          v
-+------------------+
-|      User        |
-| (Plays Songs)    |
-+------------------+
-
-## OOPs (Object-Oriented Programming)
-- Song.java is a POJO class using encapsulation with private variables and public getters/setters.
-- Inheritance is applied as MoodServlet extends HttpServlet.
-- Abstraction is achieved through separate layers (Controller, Service, DAO).
-- Method overriding is used in doPost() from HttpServlet.
-- Classes are modular and reusable, following clean object-oriented design.
-
-## Multithreading in Servlets
-- Servlets are inherently multithreaded; each HTTP request is processed in a separate thread.
-- MoodServlet handles multiple user requests simultaneously.
-- Only request-scoped variables are used, ensuring thread safety.
-- No shared mutable state is maintained across requests.
-
-## Java Collection Framework
-- List<Song> is used to store multiple songs retrieved from DAO.
-- ArrayList is preferred due to its fast traversal and dynamic resizing.
-- Collections are used while iterating in DAO and while displaying data in JSP.
-- Batch insertion into database also utilizes collections for efficient handling.
-
-
-## 💻 Key Code Snippets
-
-## 🗄️ Database & JDBC Connectivity (Backend Layer)
-
-The application uses **MySQL database** and **JDBC (Java Database Connectivity)** to fetch songs based on user mood.
-
-### 🔹 Database Structure
-
-```
--- Create database for mood based music app
-CREATE DATABASE IF NOT EXISTS mood_music_db;
-
--- Select database
-USE mood_music_db;
-
--- Create SONG table
-CREATE TABLE SONG (
-    id INT PRIMARY KEY AUTO_INCREMENT,      -- unique song id
-    title VARCHAR(100) NOT NULL,            -- song title
-    artist VARCHAR(100) NOT NULL,           -- artist name
-    album VARCHAR(100),                     -- album name (optional)
-    mood VARCHAR(50) NOT NULL,              -- mood category
-    url VARCHAR(255) NOT NULL               -- song url
-);
-
-```
-
-## SongDAO.java
-
-```Code
-public class SongDAO {
-    private static final String URL = "jdbc:mysql://localhost:3306/moodappdb";
-    private static final String USER = "root";
-    private static final String PASS = "Samriddh_009";
-
-    // Establish database connection using JDBC
-    public Connection getConnection() throws Exception {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection(URL, USER, PASS);
-    }
-}
-```
-### Servlet
- MoodServlet acts as the Controller in the MVC architecture.
- It handles HTTP POST requests triggered when the user submits mood from index.jsp.
- It calls MoodService to apply business logic and retrieve songs based on the mood.
- The processed data is forwarded to result.jsp, which acts as the View in MVC.
- @WebServlet("/mood") maps this servlet to the URL path "/mood".
- RequestDispatcher.forward() transfers data to JSP without changing the URL.
-
-### 1️⃣ Core Feature Implementation
-
-Implemented Features
-
-User Mood Input (JSP)
-The application captures user mood through a JSP-based interface (index.jsp) using an HTML form.
-
-Request Handling (Servlet Controller)
-User requests are processed by MoodServlet, which acts as the Controller in the MVC architecture and handles HTTP POST requests.
-
-Business Logic Layer (Service)
-All mood-based decision-making and validation logic is implemented inside MoodService, ensuring separation of concerns.
-
-Database Interaction (DAO Pattern)
-SongDAO manages all database operations using JDBC, following the DAO pattern to isolate data access logic.
-
-Dynamic Result Rendering (JSP View)
-Recommended songs are dynamically displayed to the user through result.jsp using server-side rendering.
-
-
-### 2️⃣ Error Handling & Robustness
-Server-Side Error Handling
-
-Null and empty mood validation
-
-Safe handling of empty database results
-
-Exception handling during JDBC operations
-
-```code -
-if (mood == null || mood.trim().isEmpty()) {
-    return new ArrayList<>();
-}
- ```
-### Database Safety
-PreparedStatement used
-
-SQL Injection prevention
-
-Controlled exception propagation
-
-### 3️⃣ Integration of Components
-Layer Integration
-Layer	Responsibility
-JSP	User Interface
-Servlet	Controller
-Service	Business Logic
-DAO	Data Access
-Model	Data Representation
-
-
-### 4️⃣ Event Handling & Request Processing
-Event Flow
-
-HTML form submit (POST request)
-
-Servlet doPost() execution
-
-Request forwarding using RequestDispatcher
-
-Server-side rendering
-
-### 5️⃣ Data Validation
-Client-Side
-
-Required form fields
-
-Controlled input options (mood)
-
-Server-Side (Primary)
-
-Validation inside Service layer
-
-Defensive programming approach
-
-
-# 📌 Summary
-
-The Mood-Based Music Recommendation System is a Java-based web application built using JSP, Servlets, JDBC, and the DAO pattern, following the MVC architecture. The application enables users to select a mood, processes the request through a well-structured backend, and retrieves relevant song recommendations from a database.
-
-The project emphasizes modular design, separation of concerns, and server-side rendering, ensuring maintainable and scalable code. It demonstrates practical implementation of Java web technologies, database connectivity, and clean application flow suitable for academic and real-world use.
-
-
-
-
-
-        
+```text
+[User Opens AuraMood]
+        │
+        ├──► (Option A) 10-Second Webcam Scan ──► Facial Expression Analysis ──► Confidence Score (%)
+        └──► (Option B) Manual Mood Pill Selection (Low & Healing / Happy / Chill / Stressed / Focus)
+                                                        │
+                                                        ▼
+                                     [AI Voice Companion Speaks Note]
+                                                        │
+                        ┌───────────────────────────────┴───────────────────────────────┐
+                        ▼                                                               ▼
+        [Curates 1 Matching Song]                                      [Curates 1 Uplifting Audiobook]
+                        │                                                               │
+                        └───────────────────────────────┬───────────────────────────────┘
+                                                        ▼
+                             [Plays in Persistent Bottom Bar / Save to Library]
