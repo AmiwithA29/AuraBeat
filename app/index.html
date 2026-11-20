@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AuraMood — Mood-Based Music &amp; Audiobooks</title>
+  <title>AuraMood — AI Mood Music &amp; Audiobooks Sanctuary</title>
   <link rel="icon" type="image/png" href="/logo.png" />
 
   <!-- Tailwind CSS CDN -->
@@ -17,16 +17,14 @@
             brand: {
               DEFAULT: '#ff4d6d',
               hover: '#ff3358',
-              muted: 'rgba(255, 77, 109, 0.15)',
-              dark: '#121212',
-              card: '#181818',
-              cardHover: '#242424',
-              border: '#282828',
-              subtext: '#b3b3b3'
+              surface: '#131317',
+              card: '#18181e',
+              cardHover: '#22222a',
+              border: '#262630'
             }
           },
           fontFamily: {
-            sans: ['Circular', '-apple-system', 'BlinkMacSystemFont', 'Inter', 'Segoe UI', 'Roboto', 'sans-serif'],
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
             serif: ['Georgia', 'serif'],
             mono: ['JetBrains Mono', 'Menlo', 'monospace']
           }
@@ -35,30 +33,32 @@
     };
   </script>
 
-  <!-- Google Fonts: Inter -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <style>
     body {
-      background-color: #0d0d11;
+      background-color: #09090c;
       color: #ffffff;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', sans-serif;
       overflow-x: hidden;
     }
 
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #0d0d11; }
-    ::-webkit-scrollbar-thumb { background: #282828; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #3e3e3e; }
+    ::-webkit-scrollbar-track { background: #09090c; }
+    ::-webkit-scrollbar-thumb { background: #262630; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3e3e4a; }
 
     .spotify-card {
-      background-color: #16161a;
-      transition: background-color 0.25s ease, transform 0.25s ease;
+      background-color: #141418;
+      border: 1px solid #22222a;
+      transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
     }
     .spotify-card:hover {
-      background-color: #202026;
+      background-color: #1c1c23;
+      border-color: #33333f;
     }
 
     .play-float-btn {
@@ -71,241 +71,204 @@
       transform: translateY(0);
     }
 
-    /* LIVE SMOKY GRADIENT AMBIENCE */
-    .smoke-layer {
+    /* Crosshair Scanner HUD */
+    .reticle-corner {
       position: absolute;
-      border-radius: 9999px;
-      filter: blur(130px);
+      width: 14px;
+      height: 14px;
+      border-color: #ff4d6d;
       pointer-events: none;
-      will-change: transform, opacity;
-      mix-blend-mode: screen;
     }
-    .smoke-1 {
-      width: 700px;
-      height: 700px;
-      background: radial-gradient(circle, #2d2a3b 0%, #171520 60%, transparent 80%);
-      top: -15%;
-      left: 5%;
-      opacity: 0.14;
-      animation: smokeFloat1 28s ease-in-out infinite alternate;
-    }
-    .smoke-2 {
-      width: 800px;
-      height: 750px;
-      background: radial-gradient(circle, #2a1c25 0%, #161016 55%, transparent 80%);
-      top: 30%;
-      right: -10%;
-      opacity: 0.13;
-      animation: smokeFloat2 32s ease-in-out infinite alternate;
-    }
-    .smoke-3 {
-      width: 650px;
-      height: 650px;
-      background: radial-gradient(circle, #1a2333 0%, #0f1520 60%, transparent 80%);
-      bottom: -10%;
-      left: 20%;
-      opacity: 0.12;
-      animation: smokeFloat3 26s ease-in-out infinite alternate;
-    }
-    .smoke-4 {
-      width: 550px;
-      height: 550px;
-      background: radial-gradient(circle, rgba(255, 77, 109, 0.3) 0%, rgba(255, 77, 109, 0.05) 55%, transparent 80%);
-      top: 15%;
-      left: 35%;
-      opacity: 0.08;
-      transition: background 1.5s ease;
-      animation: smokeFloat4 22s ease-in-out infinite alternate;
-    }
+    .reticle-tl { top: 12px; left: 12px; border-top: 2px solid; border-left: 2px solid; }
+    .reticle-tr { top: 12px; right: 12px; border-top: 2px solid; border-right: 2px solid; }
+    .reticle-bl { bottom: 12px; left: 12px; border-bottom: 2px solid; border-left: 2px solid; }
+    .reticle-br { bottom: 12px; right: 12px; border-bottom: 2px solid; border-right: 2px solid; }
 
-    @keyframes smokeFloat1 {
-      0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.11; }
-      50% { transform: translate(70px, 50px) scale(1.15) rotate(35deg); opacity: 0.16; }
-      100% { transform: translate(-30px, 80px) scale(0.95) rotate(70deg); opacity: 0.12; }
+    @keyframes scanSweep {
+      0% { top: 8%; opacity: 0.1; }
+      50% { opacity: 0.8; }
+      100% { top: 92%; opacity: 0.1; }
     }
-    @keyframes smokeFloat2 {
-      0% { transform: translate(0, 0) scale(1.05) rotate(0deg); opacity: 0.12; }
-      50% { transform: translate(-80px, -40px) scale(0.92) rotate(-30deg); opacity: 0.17; }
-      100% { transform: translate(50px, -70px) scale(1.15) rotate(50deg); opacity: 0.11; }
-    }
-    @keyframes smokeFloat3 {
-      0% { transform: translate(0, 0) scale(0.95) rotate(0deg); opacity: 0.09; }
-      50% { transform: translate(-60px, -60px) scale(1.18) rotate(30deg); opacity: 0.15; }
-      100% { transform: translate(40px, -20px) scale(1) rotate(-35deg); opacity: 0.10; }
-    }
-    @keyframes smokeFloat4 {
-      0% { transform: translate(0, 0) scale(1); opacity: 0.06; }
-      50% { transform: translate(50px, -30px) scale(1.22); opacity: 0.11; }
-      100% { transform: translate(-40px, 40px) scale(0.95); opacity: 0.07; }
+    .animate-scan-beam {
+      animation: scanSweep 2s ease-in-out infinite alternate;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col bg-[#0d0d11] text-white selection:bg-[#ff4d6d]/30 selection:text-white relative">
+<body class="min-h-screen flex flex-col bg-[#09090c] text-white selection:bg-[#ff4d6d]/30 selection:text-white relative">
 
-  <!-- LIVE SMOKY GRADIENT BACKGROUND (LOW OPACITY & SUBTLE) -->
-  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-[#0d0d11]">
-    <div class="smoke-layer smoke-1"></div>
-    <div class="smoke-layer smoke-2"></div>
-    <div class="smoke-layer smoke-3"></div>
-    <div id="live-mood-smoke" class="smoke-layer smoke-4"></div>
-    <!-- Soft Vignette overlay -->
-    <div class="absolute inset-0 bg-gradient-to-b from-[#0d0d11]/40 via-transparent to-[#0d0d11]/80"></div>
-  </div>
+  <!-- 1. LIVE PROCEDURAL SMOKY CANVAS BACKGROUND -->
+  <canvas id="smoke-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
-  <!-- HIDDEN AUDIO ENGINES & CANVAS -->
+  <!-- HIDDEN AUDIO ENGINES & ANALYZER -->
   <audio id="global-audio" preload="auto"></audio>
   <canvas id="face-analyzer-canvas" width="64" height="64" class="hidden"></canvas>
 
-  <!-- TOP SPOTIFY-STYLE NAVBAR -->
-  <header class="sticky top-0 z-50 w-full bg-[#121212]/95 backdrop-blur-md border-b border-[#282828] px-4 sm:px-8 py-3 flex items-center justify-between">
-    
-    <!-- Left: Brand Logo & Title -->
-    <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-      <img src="/logo.png" alt="AuraMood Logo" class="w-9 h-9 rounded-xl shadow-md object-cover" />
-      <div class="flex items-center space-x-2.5">
-        <span class="font-extrabold text-lg text-white tracking-tight">AuraMood</span>
-        <span id="nav-mood-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#242424] text-[#ff4d6d] border border-[#333333]">
-          🌧️ Feeling Low
-        </span>
+  <!-- 2. STICKY TOP NAVBAR -->
+  <header class="sticky top-0 z-50 w-full bg-[#09090c]/90 backdrop-blur-md border-b border-[#202028]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Left: Logo & Brand Title -->
+      <div class="flex items-center space-x-3 cursor-pointer select-none" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <img src="/logo.png" alt="AuraMood Logo" class="w-9 h-9 rounded-xl shadow-lg object-cover ring-1 ring-white/10" />
+        <div class="flex items-center space-x-2.5">
+          <span class="font-extrabold text-lg text-white tracking-tight">AuraMood</span>
+          <span id="nav-mood-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#1a1a22] text-[#ff4d6d] border border-[#2a2a36]">
+            🌧️ Feeling Low
+          </span>
+        </div>
       </div>
-    </div>
 
-    <!-- Right: Controls & User -->
-    <div class="flex items-center space-x-3 sm:space-x-4">
-      <!-- Natural Voice Comfort Toggle -->
-      <button id="toggle-voice-btn" class="px-3.5 py-1.5 rounded-full bg-[#1f1f1f] hover:bg-[#282828] border border-[#333333] text-xs font-medium text-[#b3b3b3] hover:text-white flex items-center space-x-2 transition-all cursor-pointer">
-        <span id="voice-icon">🔊</span>
-        <span class="hidden sm:inline" id="voice-status-text">AI Voice: ON</span>
-      </button>
+      <!-- Right: Actions & User -->
+      <div class="flex items-center space-x-2.5 sm:space-x-3">
+        <!-- AI Voice Toggle -->
+        <button id="toggle-voice-btn" class="px-3.5 py-1.5 rounded-full bg-[#15151c] hover:bg-[#1f1f28] border border-[#262632] text-xs font-medium text-[#a7a7b4] hover:text-white flex items-center space-x-2 transition-all cursor-pointer">
+          <span id="voice-icon">🔊</span>
+          <span class="hidden sm:inline" id="voice-status-text">AI Voice: ON</span>
+        </button>
 
-      <!-- Saved Library Button -->
-      <button id="open-library-btn" class="px-3.5 py-1.5 rounded-full bg-[#1f1f1f] hover:bg-[#282828] border border-[#333333] text-xs font-medium text-[#b3b3b3] hover:text-white flex items-center space-x-1.5 transition-all cursor-pointer">
-        <span>🔖 Your Library</span>
-        <span id="library-count-badge" class="px-1.5 py-0.2 rounded-full bg-[#ff4d6d] text-white text-[10px] font-bold">0</span>
-      </button>
+        <!-- Saved Library Button -->
+        <button id="open-library-btn" class="px-3.5 py-1.5 rounded-full bg-[#15151c] hover:bg-[#1f1f28] border border-[#262632] text-xs font-medium text-[#a7a7b4] hover:text-white flex items-center space-x-1.5 transition-all cursor-pointer">
+          <span>🔖 Saved</span>
+          <span id="library-count-badge" class="px-1.5 py-0.2 rounded-full bg-[#ff4d6d] text-white text-[10px] font-bold">0</span>
+        </button>
 
-      <!-- User Profile Badge -->
-      <button id="open-auth-btn" class="flex items-center space-x-2 p-1 sm:px-3 sm:py-1.5 rounded-full bg-[#1f1f1f] hover:bg-[#282828] border border-[#333333] text-xs font-medium text-white transition-all cursor-pointer">
-        <img id="user-avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-6 h-6 rounded-full object-cover" />
-        <span id="user-name-label" class="hidden sm:inline text-[#b3b3b3] hover:text-white">Sneha</span>
-      </button>
+        <!-- User Profile Pill -->
+        <button id="open-auth-btn" class="flex items-center space-x-2 p-1 sm:px-3 sm:py-1.5 rounded-full bg-[#15151c] hover:bg-[#1f1f28] border border-[#262632] text-xs font-medium text-white transition-all cursor-pointer">
+          <img id="user-avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-6 h-6 rounded-full object-cover" />
+          <span id="user-name-label" class="hidden sm:inline text-[#a7a7b4] hover:text-white">Sneha</span>
+        </button>
+      </div>
+
     </div>
   </header>
 
-  <!-- MAIN WRAPPER -->
-  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+  <!-- 3. MAIN PAGE CONTENT -->
+  <main class="relative z-10 flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
 
-    <!-- 1. HERO CAMERA SCANNER SECTION (CLEAN & MINIMALIST) -->
-    <section class="bg-[#181818] rounded-2xl p-6 sm:p-8 border border-[#282828] flex flex-col md:flex-row items-center justify-between gap-8">
+    <!-- HERO SECTION: CENTERED, BALANCED & CLEAN -->
+    <section class="flex flex-col items-center text-center space-y-6 pt-2">
       
-      <!-- Left: Headline & Actions -->
-      <div class="flex-1 space-y-4 text-center md:text-left">
-        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#242424] border border-[#333333] text-xs font-medium text-[#ff4d6d]">
-          <span class="w-2 h-2 rounded-full bg-[#ff4d6d] animate-pulse"></span>
-          <span>10-Second Facial Mood Analysis</span>
-        </div>
+      <!-- Eyebrow Badge -->
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#181820] border border-[#2a2a36] text-xs font-semibold text-[#ff4d6d]">
+        <span class="w-2 h-2 rounded-full bg-[#ff4d6d] animate-pulse"></span>
+        <span class="uppercase tracking-wider">10-Second Facial Mood Scan</span>
+      </div>
 
+      <!-- Main Headline & Subtitle -->
+      <div class="max-w-2xl mx-auto space-y-2">
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
-          Music &amp; Books Curated <br class="hidden sm:block" />
-          <span class="text-[#ff4d6d]">To Heal Your Vibe.</span>
+          How is your soul feeling today?
         </h1>
-
-        <p class="text-sm sm:text-base text-[#b3b3b3] font-normal leading-relaxed max-w-lg">
+        <p class="text-sm sm:text-base text-[#a0a0b0] font-normal leading-relaxed">
           Look into your webcam for 10 seconds. AuraMood reads your emotional warmth, speaks a natural voice note, and pairs <b>1 perfect song &amp; 1 uplifting audiobook</b> for you.
         </p>
+      </div>
 
-        <!-- Primary Action Buttons -->
-        <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
-          <button id="start-scan-btn" class="px-6 py-3.5 rounded-full bg-[#ff4d6d] hover:bg-[#ff3358] text-white font-bold text-xs sm:text-sm tracking-wide transition-all shadow-md hover:scale-105 active:scale-95 flex items-center space-x-2 cursor-pointer">
+      <!-- CIRCULAR CAMERA SCANNER HUD (SYMMETRICAL & SLEEK) -->
+      <div class="flex flex-col items-center justify-center pt-2">
+        <div class="relative w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center">
+          
+          <!-- Outer Mood Ring -->
+          <div id="camera-aura-ring" class="absolute -inset-2 rounded-full border border-[#ff4d6d]/40 transition-colors duration-700 pointer-events-none"></div>
+
+          <!-- Video Viewfinder Frame -->
+          <div class="relative w-full h-full rounded-full overflow-hidden bg-[#0d0d12] border-2 border-[#282836] flex items-center justify-center shadow-2xl">
+            <video id="webcam-video" playsinline muted class="hidden w-full h-full object-cover transform -scale-x-100"></video>
+            
+            <!-- Scanning HUD Laser Beam -->
+            <div id="camera-radar-beam" class="hidden absolute left-4 right-4 h-0.5 bg-gradient-to-r from-transparent via-[#ff4d6d] to-transparent shadow-[0_0_12px_#ff4d6d] animate-scan-beam"></div>
+
+            <!-- Standby View -->
+            <div id="camera-standby-view" class="flex flex-col items-center justify-center p-4 text-center select-none">
+              <div class="w-14 h-14 rounded-2xl bg-[#16161f] border border-[#2a2a38] flex items-center justify-center mb-2.5 text-2xl shadow-inner">
+                <span id="standby-emoji-display">📷</span>
+              </div>
+              <span class="text-xs font-semibold text-white">AI Camera Ready</span>
+              <span class="text-[10px] text-[#78788a] mt-0.5">Click scan to activate</span>
+            </div>
+
+            <!-- Active Scanning HUD -->
+            <div id="camera-scanning-hud" class="hidden absolute inset-0 bg-[#09090c]/80 backdrop-blur-xs flex flex-col items-center justify-center p-4 text-center">
+              <div class="w-12 h-12 rounded-full border-2 border-[#ff4d6d] border-t-transparent animate-spin mb-2 flex items-center justify-center">
+                <span id="scan-countdown-number" class="text-xs font-mono font-bold text-white">10s</span>
+              </div>
+              <span id="scan-status-text" class="text-xs font-medium text-white">Detecting Face...</span>
+              <span class="text-[9px] text-[#ff4d6d]/80 font-mono mt-0.5">Measuring smile &amp; valence</span>
+            </div>
+
+            <!-- Subtle Sci-Fi Reticle Brackets -->
+            <div class="reticle-corner reticle-tl"></div>
+            <div class="reticle-corner reticle-tr"></div>
+            <div class="reticle-corner reticle-bl"></div>
+            <div class="reticle-corner reticle-br"></div>
+          </div>
+        </div>
+
+        <!-- Camera Action Buttons -->
+        <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
+          <button id="start-scan-btn" class="px-6 py-3 rounded-full bg-[#ff4d6d] hover:bg-[#ff3358] text-white font-bold text-xs sm:text-sm tracking-wide transition-all shadow-lg hover:scale-105 active:scale-95 flex items-center space-x-2 cursor-pointer">
             <span class="text-base">📸</span>
             <span id="start-scan-btn-text">Start 10-Second Mood Scan</span>
           </button>
 
-          <button id="stop-scan-btn" class="hidden px-5 py-3 rounded-full bg-[#242424] hover:bg-[#2d2d2d] border border-[#3e3e3e] text-white text-xs font-semibold tracking-wide transition-all cursor-pointer">
+          <button id="stop-scan-btn" class="hidden px-5 py-3 rounded-full bg-[#181820] hover:bg-[#22222c] border border-[#2e2e3a] text-white text-xs font-semibold tracking-wide transition-all cursor-pointer">
             Stop Camera
           </button>
         </div>
 
-        <!-- 5 Quick Emotion Pills -->
-        <div class="pt-3">
-          <div class="text-[11px] font-semibold text-[#808080] uppercase tracking-wider mb-2">Or Pick Mood Directly:</div>
-          <div class="flex flex-wrap gap-2 justify-center md:justify-start" id="mood-quick-chips">
-            <button data-mood="sad" class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#ff4d6d] text-white shadow">
+        <!-- 5 Emotion Selector Chips -->
+        <div class="mt-6 w-full max-w-xl">
+          <div class="text-[11px] font-semibold text-[#7c7c8e] uppercase tracking-wider mb-2.5">Or Pick Mood Directly:</div>
+          <div class="flex flex-wrap items-center justify-center gap-2" id="mood-quick-chips">
+            <button data-mood="sad" class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#ff4d6d] text-white shadow">
               🌧️ Low &amp; Healing
             </button>
-            <button data-mood="happy" class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#242424] hover:bg-[#2d2d2d] text-[#b3b3b3] hover:text-white">
+            <button data-mood="happy" class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#16161e] hover:bg-[#22222c] text-[#a0a0b0] hover:text-white border border-[#242430]">
               ✨ Happy
             </button>
-            <button data-mood="chill" class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#242424] hover:bg-[#2d2d2d] text-[#b3b3b3] hover:text-white">
+            <button data-mood="chill" class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#16161e] hover:bg-[#22222c] text-[#a0a0b0] hover:text-white border border-[#242430]">
               🌙 Calm &amp; Chill
             </button>
-            <button data-mood="stressed" class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#242424] hover:bg-[#2d2d2d] text-[#b3b3b3] hover:text-white">
+            <button data-mood="stressed" class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#16161e] hover:bg-[#22222c] text-[#a0a0b0] hover:text-white border border-[#242430]">
               🍃 Stressed
             </button>
-            <button data-mood="energetic" class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#242424] hover:bg-[#2d2d2d] text-[#b3b3b3] hover:text-white">
+            <button data-mood="energetic" class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#16161e] hover:bg-[#22222c] text-[#a0a0b0] hover:text-white border border-[#242430]">
               ⚡ Deep Focus
             </button>
           </div>
         </div>
-      </div>
 
-      <!-- Right: Clean Minimalist Circular Webcam Frame -->
-      <div class="relative w-52 h-52 sm:w-60 sm:h-60 flex-shrink-0 flex items-center justify-center">
-        <!-- Subtle Outer Ring -->
-        <div id="camera-aura-ring" class="absolute -inset-2.5 rounded-full border-2 border-[#ff4d6d]/40 transition-colors duration-500"></div>
-
-        <div class="relative w-full h-full rounded-full overflow-hidden bg-[#0a0a0a] border-2 border-[#282828] flex items-center justify-center shadow-2xl">
-          <video id="webcam-video" playsinline muted class="hidden w-full h-full object-cover transform -scale-x-100"></video>
-          
-          <!-- Standby Display -->
-          <div id="camera-standby-view" class="flex flex-col items-center justify-center p-4 text-center">
-            <div class="w-14 h-14 rounded-full bg-[#181818] border border-[#282828] flex items-center justify-center mb-2 text-2xl">
-              <span id="standby-emoji-display">📷</span>
-            </div>
-            <span class="text-xs font-semibold text-white">Camera Standby</span>
-            <span class="text-[10px] text-[#808080] mt-0.5">Click scan to activate</span>
-          </div>
-
-          <!-- Live Scanning HUD -->
-          <div id="camera-scanning-hud" class="hidden absolute inset-0 bg-black/75 flex flex-col items-center justify-center p-4 text-center">
-            <div class="w-12 h-12 rounded-full border-2 border-[#ff4d6d] border-t-transparent animate-spin mb-2 flex items-center justify-center">
-              <span id="scan-countdown-number" class="text-xs font-mono font-bold text-white">10s</span>
-            </div>
-            <span id="scan-status-text" class="text-xs font-medium text-white">Analyzing...</span>
-          </div>
-        </div>
       </div>
 
     </section>
 
-    <!-- 2. NATURAL VOICE EMPATHETIC COMPANION CARD (CLEAN SPOTIFY BANNER) -->
-    <section id="empathetic-note-section" class="bg-[#181818] rounded-2xl p-6 sm:p-7 border border-[#282828] space-y-4">
-      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-[#282828]">
+    <!-- EMPATHETIC AI COMPANION SPOKEN NOTE CARD -->
+    <section id="empathetic-note-section" class="bg-[#141418] rounded-2xl p-6 sm:p-7 border border-[#22222c] space-y-4 shadow-xl">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-[#22222c]">
         <div class="flex items-center space-x-3">
-          <div id="note-emoji-avatar" class="w-10 h-10 rounded-xl bg-[#242424] border border-[#333333] flex items-center justify-center text-xl">
+          <div id="note-emoji-avatar" class="w-10 h-10 rounded-xl bg-[#1e1e28] border border-[#2e2e3c] flex items-center justify-center text-xl shadow">
             🌧️
           </div>
           <div>
             <div class="flex items-center space-x-2">
               <span id="note-mood-title" class="text-sm font-bold text-white">Feeling Low &amp; Healing</span>
-              <span class="px-2 py-0.5 rounded-full bg-[#242424] text-[#ff4d6d] text-[10px] font-medium">96.8% Confidence</span>
+              <span class="px-2 py-0.5 rounded-full bg-[#1e1e28] text-[#ff4d6d] text-[10px] font-semibold border border-[#2c2c3a]">96.8% Confidence</span>
             </div>
-            <span class="text-xs text-[#808080]">AI Companion • Natural Voice Comfort</span>
+            <span class="text-xs text-[#7e7e90]">AI Companion • Natural Voice Comfort</span>
           </div>
         </div>
 
-        <button id="replay-voice-btn" class="px-4 py-2 rounded-full bg-[#242424] hover:bg-[#2d2d2d] border border-[#333333] text-xs font-medium text-white flex items-center space-x-2 transition-all cursor-pointer">
+        <button id="replay-voice-btn" class="px-4 py-2 rounded-full bg-[#1c1c24] hover:bg-[#262632] border border-[#2a2a36] text-xs font-medium text-white flex items-center space-x-2 transition-all cursor-pointer shadow-sm">
           <span>🔊</span>
           <span>Replay Voice Note</span>
         </button>
       </div>
 
-      <!-- Empathetic Note Text -->
       <div class="space-y-2">
-        <p id="sweet-message-text" class="text-base sm:text-lg font-serif italic text-[#e6e6e6] leading-relaxed">
+        <p id="sweet-message-text" class="text-base sm:text-lg font-serif italic text-[#eaeaf0] leading-relaxed">
           "Hey dear... I noticed that today feels a little heavy on your heart. Please remember that you are doing so well, and it's completely okay to pause, rest, and heal. You don't have to carry everything alone. I've chosen this uplifting song and heartwarming audiobook to wrap you in warmth and put a gentle smile on your face. You've got this, and tomorrow will be brighter! ❤️"
         </p>
-        <div class="flex items-center space-x-2 text-xs text-[#808080]">
+        <div class="flex items-center space-x-2 text-xs text-[#7e7e90]">
           <span id="note-solfeggio-tag">396Hz Liberation of Sorrow</span>
           <span>•</span>
           <span>Curated for comfort &amp; peace</span>
@@ -313,62 +276,62 @@
       </div>
     </section>
 
-    <!-- 3. TOP SPOTLIGHT: 1 HANDPICKED SONG + 1 HANDPICKED AUDIOBOOK -->
+    <!-- TOP SPOTLIGHT: 1 HANDPICKED SONG + 1 HANDPICKED AUDIOBOOK (SYMMETRICAL & PROFESSIONAL) -->
     <section class="space-y-4">
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Today's Perfect Match</h2>
-          <p class="text-xs text-[#b3b3b3]">1 Handpicked Song and 1 Audiobook paired directly with your mood.</p>
+          <p class="text-xs text-[#a0a0b0]">1 Handpicked Song and 1 Audiobook paired directly with your mood.</p>
         </div>
         <span class="text-xs font-semibold text-[#ff4d6d]">★ Featured Pair</span>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         
-        <!-- Hero Song Card (Spotify Style) -->
-        <div class="spotify-card rounded-xl p-4 sm:p-5 border border-[#282828] flex flex-col sm:flex-row items-center gap-4">
-          <div class="relative w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-[#282828] shadow-lg">
+        <!-- Hero Song Card -->
+        <div class="spotify-card rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-5">
+          <div class="relative w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden bg-[#20202a] shadow-lg">
             <img id="spotlight-song-art" src="https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bc/6e/4d/bc6e4d0c-adec-b431-7b60-16f5689f9664/886446201597.jpg/600x600bb.jpg" class="w-full h-full object-cover" />
-            <button id="spotlight-play-song-btn" class="absolute bottom-2 right-2 w-10 h-10 rounded-full bg-[#ff4d6d] hover:bg-[#ff3358] text-white flex items-center justify-center font-bold text-sm shadow-xl hover:scale-105 active:scale-95 transition-all cursor-pointer">
+            <button id="spotlight-play-song-btn" class="absolute bottom-2.5 right-2.5 w-10 h-10 rounded-full bg-[#ff4d6d] hover:bg-[#ff3358] text-white flex items-center justify-center font-bold text-sm shadow-xl hover:scale-105 active:scale-95 transition-all cursor-pointer">
               <span id="spotlight-song-play-icon">▶</span>
             </button>
           </div>
 
-          <div class="flex-1 min-w-0 flex flex-col justify-between space-y-2 text-center sm:text-left">
+          <div class="flex-1 min-w-0 flex flex-col justify-between space-y-2 text-center sm:text-left w-full">
             <div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-[#ff4d6d]">TOP RECOMMENDED SONG</span>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-[#ff4d6d]">RECOMMENDED SONG</span>
               <h3 id="spotlight-song-title" class="text-lg font-bold text-white truncate mt-0.5">Channa Mereya</h3>
-              <p id="spotlight-song-artist" class="text-xs text-[#b3b3b3] truncate">Pritam &amp; Arijit Singh</p>
-              <p id="spotlight-song-why" class="text-xs text-[#808080] line-clamp-2 mt-1">A soulful, cathartic melody to heal and release emotions gently.</p>
+              <p id="spotlight-song-artist" class="text-xs text-[#a0a0b0] truncate">Pritam &amp; Arijit Singh</p>
+              <p id="spotlight-song-why" class="text-xs text-[#7e7e90] line-clamp-2 mt-1">A soulful, cathartic melody to heal and release emotions gently.</p>
             </div>
 
             <div class="flex items-center justify-center sm:justify-start gap-2 pt-1">
-              <a id="spotlight-song-spotify" href="#" target="_blank" class="px-3 py-1.5 rounded-full bg-[#242424] hover:bg-[#2e2e2e] text-[#1ed760] text-xs font-semibold border border-[#333333] transition-colors">
+              <a id="spotlight-song-spotify" href="#" target="_blank" class="px-3.5 py-1.5 rounded-full bg-[#1c1c24] hover:bg-[#242430] text-[#1ed760] text-xs font-semibold border border-[#2a2a36] transition-colors">
                 Spotify ↗
               </a>
             </div>
           </div>
         </div>
 
-        <!-- Hero Audiobook Card (Spotify Style) -->
-        <div class="spotify-card rounded-xl p-4 sm:p-5 border border-[#282828] flex flex-col sm:flex-row items-center gap-4">
-          <div class="relative w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-[#282828] shadow-lg flex items-center justify-center p-2">
+        <!-- Hero Audiobook Card -->
+        <div class="spotify-card rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-5">
+          <div class="relative w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden bg-[#20202a] shadow-lg flex items-center justify-center p-2">
             <img id="spotlight-book-cover" src="https://covers.openlibrary.org/b/id/8231996-L.jpg" class="h-full w-auto object-contain rounded" />
-            <button id="spotlight-play-book-btn" class="absolute bottom-2 right-2 w-10 h-10 rounded-full bg-[#ff4d6d] hover:bg-[#ff3358] text-white flex items-center justify-center font-bold text-sm shadow-xl hover:scale-105 active:scale-95 transition-all cursor-pointer">
+            <button id="spotlight-play-book-btn" class="absolute bottom-2.5 right-2.5 w-10 h-10 rounded-full bg-[#ff4d6d] hover:bg-[#ff3358] text-white flex items-center justify-center font-bold text-sm shadow-xl hover:scale-105 active:scale-95 transition-all cursor-pointer">
               <span>🎧</span>
             </button>
           </div>
 
-          <div class="flex-1 min-w-0 flex flex-col justify-between space-y-2 text-center sm:text-left">
+          <div class="flex-1 min-w-0 flex flex-col justify-between space-y-2 text-center sm:text-left w-full">
             <div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-[#ff4d6d]">TOP RECOMMENDED AUDIOBOOK</span>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-[#ff4d6d]">RECOMMENDED AUDIOBOOK</span>
               <h3 id="spotlight-book-title" class="text-lg font-bold text-white truncate mt-0.5">The Little Prince</h3>
-              <p id="spotlight-book-author" class="text-xs text-[#b3b3b3] truncate">Antoine de Saint-Exupéry</p>
-              <p id="spotlight-book-why" class="text-xs text-[#808080] line-clamp-2 mt-1">A tender classic reminding us that what is essential is seen with the heart.</p>
+              <p id="spotlight-book-author" class="text-xs text-[#a0a0b0] truncate">Antoine de Saint-Exupéry</p>
+              <p id="spotlight-book-why" class="text-xs text-[#7e7e90] line-clamp-2 mt-1">A tender classic reminding us that what is essential is seen with the heart.</p>
             </div>
 
             <div class="flex items-center justify-center sm:justify-start gap-2 pt-1">
-              <a id="spotlight-book-google" href="#" target="_blank" class="px-3 py-1.5 rounded-full bg-[#242424] hover:bg-[#2e2e2e] text-white text-xs font-semibold border border-[#333333] transition-colors">
+              <a id="spotlight-book-google" href="#" target="_blank" class="px-3.5 py-1.5 rounded-full bg-[#1c1c24] hover:bg-[#242430] text-white text-xs font-semibold border border-[#2a2a36] transition-colors">
                 Google Books ↗
               </a>
             </div>
@@ -378,61 +341,61 @@
       </div>
     </section>
 
-    <!-- 4. MORE CURATED MUSIC (CLEAN SPOTIFY ALBUM GRID) -->
-    <section class="space-y-4 pt-4 border-t border-[#282828]">
+    <!-- MORE CURATED MUSIC (SPOTIFY ALBUM GRID) -->
+    <section class="space-y-4 pt-4 border-t border-[#1e1e26]">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
           <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">More Music For Your Mood</h2>
-          <p class="text-xs text-[#b3b3b3]">Real 30-second studio previews with verified composer &amp; label credits.</p>
+          <p class="text-xs text-[#a0a0b0]">Real 30-second studio previews with verified composer &amp; label credits.</p>
         </div>
 
         <!-- Genre Filter Tabs -->
         <div class="flex items-center space-x-1.5 overflow-x-auto" id="music-genre-tabs">
-          <button data-cat="all" class="px-3 py-1 rounded-full text-xs font-semibold bg-white text-black">All</button>
-          <button data-cat="bollywood" class="px-3 py-1 rounded-full text-xs font-semibold bg-[#242424] hover:bg-[#2d2d2d] text-[#b3b3b3] hover:text-white">Bollywood</button>
-          <button data-cat="global" class="px-3 py-1 rounded-full text-xs font-semibold bg-[#242424] hover:bg-[#2d2d2d] text-[#b3b3b3] hover:text-white">Global Pop</button>
-          <button data-cat="indie" class="px-3 py-1 rounded-full text-xs font-semibold bg-[#242424] hover:bg-[#2d2d2d] text-[#b3b3b3] hover:text-white">Indie &amp; Folk</button>
+          <button data-cat="all" class="px-3.5 py-1 rounded-full text-xs font-semibold bg-white text-black">All</button>
+          <button data-cat="bollywood" class="px-3.5 py-1 rounded-full text-xs font-semibold bg-[#181820] hover:bg-[#22222c] text-[#a0a0b0] hover:text-white border border-[#262632]">Bollywood</button>
+          <button data-cat="global" class="px-3.5 py-1 rounded-full text-xs font-semibold bg-[#181820] hover:bg-[#22222c] text-[#a0a0b0] hover:text-white border border-[#262632]">Global Pop</button>
+          <button data-cat="indie" class="px-3.5 py-1 rounded-full text-xs font-semibold bg-[#181820] hover:bg-[#22222c] text-[#a0a0b0] hover:text-white border border-[#262632]">Indie &amp; Folk</button>
         </div>
       </div>
 
       <!-- Music Cards Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="music-cards-container">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5" id="music-cards-container">
         <!-- Dynamically injected -->
       </div>
     </section>
 
-    <!-- 5. MORE CURATED AUDIOBOOKS (CLEAN BOOK TILES) -->
-    <section class="space-y-4 pt-4 border-t border-[#282828]">
+    <!-- MORE CURATED AUDIOBOOKS (SPOTIFY BOOK TILES) -->
+    <section class="space-y-4 pt-4 border-t border-[#1e1e26]">
       <div>
         <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">More Audiobooks For Your Mood</h2>
-        <p class="text-xs text-[#b3b3b3]">Pre-loaded with live audio narration and free preview links. (No manual upload needed!)</p>
+        <p class="text-xs text-[#a0a0b0]">Pre-loaded with live audio narration and free preview links. (No manual upload needed!)</p>
       </div>
 
       <!-- Books Cards Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="books-cards-container">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5" id="books-cards-container">
         <!-- Dynamically injected -->
       </div>
     </section>
 
   </main>
 
-  <!-- 6. SPOTIFY-STYLE FIXED BOTTOM PLAYER DOCK -->
-  <div id="bottom-dock" class="sticky bottom-0 z-50 w-full bg-[#181818] border-t border-[#282828] px-4 sm:px-8 py-3">
+  <!-- 4. SPOTIFY-STYLE FIXED BOTTOM PLAYER DOCK -->
+  <div id="bottom-dock" class="sticky bottom-0 z-50 w-full bg-[#101014]/95 backdrop-blur-md border-t border-[#1e1e26] px-4 sm:px-8 py-3">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
       
       <!-- Currently Playing Details -->
       <div class="flex items-center space-x-3 w-full sm:w-1/3 min-w-0">
-        <img id="dock-artwork" src="https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bc/6e/4d/bc6e4d0c-adec-b431-7b60-16f5689f9664/886446201597.jpg/600x600bb.jpg" class="w-12 h-12 rounded-md object-cover flex-shrink-0 shadow-md" />
+        <img id="dock-artwork" src="https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bc/6e/4d/bc6e4d0c-adec-b431-7b60-16f5689f9664/886446201597.jpg/600x600bb.jpg" class="w-12 h-12 rounded-lg object-cover flex-shrink-0 shadow-md ring-1 ring-white/10" />
         <div class="flex flex-col min-w-0">
           <span id="dock-title" class="text-xs font-bold text-white truncate">Channa Mereya</span>
-          <span id="dock-subtitle" class="text-[11px] text-[#b3b3b3] truncate">Pritam &amp; Arijit Singh</span>
+          <span id="dock-subtitle" class="text-[11px] text-[#a0a0b0] truncate">Pritam &amp; Arijit Singh</span>
         </div>
       </div>
 
       <!-- Center Playback Controls -->
       <div class="flex flex-col items-center space-y-1.5 w-full sm:w-1/3">
         <div class="flex items-center space-x-5">
-          <button id="dock-prev-btn" class="text-[#b3b3b3] hover:text-white transition-colors cursor-pointer" title="Previous">
+          <button id="dock-prev-btn" class="text-[#a0a0b0] hover:text-white transition-colors cursor-pointer" title="Previous">
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg>
           </button>
 
@@ -440,24 +403,24 @@
             <span id="dock-play-icon">▶</span>
           </button>
 
-          <button id="dock-next-btn" class="text-[#b3b3b3] hover:text-white transition-colors cursor-pointer" title="Next">
+          <button id="dock-next-btn" class="text-[#a0a0b0] hover:text-white transition-colors cursor-pointer" title="Next">
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"></path></svg>
           </button>
         </div>
 
-        <!-- Progress Scrubber -->
-        <div class="w-full max-w-xs flex items-center space-x-2 text-[10px] text-[#808080]">
+        <!-- Progress Timeline Scrubber -->
+        <div class="w-full max-w-xs flex items-center space-x-2 text-[10px] text-[#707080]">
           <span id="dock-time-current">0:00</span>
-          <div class="flex-1 h-1 bg-[#333333] rounded-full overflow-hidden cursor-pointer" id="dock-progress-bar">
+          <div class="flex-1 h-1 bg-[#262632] rounded-full overflow-hidden cursor-pointer" id="dock-progress-bar">
             <div id="dock-progress-fill" class="h-full bg-white hover:bg-[#ff4d6d] w-0 transition-all"></div>
           </div>
           <span id="dock-time-duration">0:30</span>
         </div>
       </div>
 
-      <!-- Right Actions: Type Badge & Sanctuary -->
-      <div class="hidden sm:flex items-center justify-end space-x-3 w-1/3 text-xs text-[#808080]">
-        <span id="dock-item-type" class="px-2 py-0.5 rounded-full bg-[#242424] text-[#ff4d6d] text-[10px] font-semibold border border-[#333333]">
+      <!-- Right Details: Type Badge -->
+      <div class="hidden sm:flex items-center justify-end space-x-3 w-1/3 text-xs text-[#707080]">
+        <span id="dock-item-type" class="px-2 py-0.5 rounded-full bg-[#181822] text-[#ff4d6d] text-[10px] font-semibold border border-[#2a2a38]">
           MUSIC
         </span>
         <span>Lossless 432Hz</span>
@@ -468,13 +431,13 @@
 
   <!-- SAVED SANCTUARY DRAWER MODAL -->
   <div id="library-drawer" class="hidden fixed inset-0 z-50 flex justify-end bg-black/70 backdrop-blur-sm">
-    <div class="relative w-full max-w-md h-full bg-[#181818] border-l border-[#282828] p-6 flex flex-col shadow-2xl">
-      <div class="flex items-center justify-between pb-4 border-b border-[#282828]">
+    <div class="relative w-full max-w-md h-full bg-[#101014] border-l border-[#22222c] p-6 flex flex-col shadow-2xl">
+      <div class="flex items-center justify-between pb-4 border-b border-[#22222c]">
         <div>
           <span class="text-[10px] font-bold text-[#ff4d6d] uppercase tracking-wider">SAVED COLLECTION</span>
           <h2 class="text-xl font-bold text-white mt-0.5">Your Library</h2>
         </div>
-        <button id="close-library-drawer" class="w-8 h-8 rounded-full bg-[#242424] hover:bg-[#2e2e2e] text-white flex items-center justify-center cursor-pointer">✕</button>
+        <button id="close-library-drawer" class="w-8 h-8 rounded-full bg-[#1e1e28] hover:bg-[#282834] text-white flex items-center justify-center cursor-pointer">✕</button>
       </div>
       <div id="library-drawer-content" class="flex-1 overflow-y-auto space-y-3 my-4 pr-1">
         <!-- Dynamically rendered -->
@@ -484,29 +447,29 @@
 
   <!-- USER SIGN-IN / ONBOARDING MODAL -->
   <div id="login-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-    <div class="relative w-full max-w-md rounded-2xl bg-[#181818] border border-[#282828] p-6 sm:p-8 shadow-2xl text-center">
-      <button id="close-login-btn" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#242424] hover:bg-[#2e2e2e] text-white flex items-center justify-center cursor-pointer">✕</button>
+    <div class="relative w-full max-w-md rounded-2xl bg-[#121218] border border-[#242432] p-6 sm:p-8 shadow-2xl text-center">
+      <button id="close-login-btn" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#1c1c26] hover:bg-[#262634] text-white flex items-center justify-center cursor-pointer">✕</button>
       
       <img src="/logo.png" alt="Logo" class="w-12 h-12 rounded-xl mx-auto shadow-md mb-3" />
       <h2 class="text-2xl font-bold text-white">Welcome to AuraMood</h2>
-      <p class="text-xs text-[#b3b3b3] mt-1 mb-6">Personalize your live facial emotion scan &amp; save favorite tracks and audiobooks.</p>
+      <p class="text-xs text-[#a0a0b0] mt-1 mb-6">Personalize your live facial emotion scan &amp; save favorite tracks and audiobooks.</p>
 
       <div class="space-y-3 text-left">
         <div>
-          <label class="block text-[11px] font-semibold text-[#808080] uppercase tracking-wider mb-1">Your Name</label>
-          <input type="text" id="login-name-input" value="Sneha Kumari" class="w-full px-4 py-2.5 rounded-lg bg-[#242424] border border-[#333333] text-sm text-white focus:outline-none focus:border-[#ff4d6d]" />
+          <label class="block text-[11px] font-semibold text-[#7c7c8e] uppercase tracking-wider mb-1">Your Name</label>
+          <input type="text" id="login-name-input" value="Sneha Kumari" class="w-full px-4 py-2.5 rounded-lg bg-[#1a1a24] border border-[#2a2a38] text-sm text-white focus:outline-none focus:border-[#ff4d6d]" />
         </div>
 
         <div>
-          <label class="block text-[11px] font-semibold text-[#808080] uppercase tracking-wider mb-1">Email</label>
-          <input type="email" id="login-email-input" value="snehakumari@gmail.com" class="w-full px-4 py-2.5 rounded-lg bg-[#242424] border border-[#333333] text-sm text-white focus:outline-none focus:border-[#ff4d6d]" />
+          <label class="block text-[11px] font-semibold text-[#7c7c8e] uppercase tracking-wider mb-1">Email</label>
+          <input type="email" id="login-email-input" value="snehakumari@gmail.com" class="w-full px-4 py-2.5 rounded-lg bg-[#1a1a24] border border-[#2a2a38] text-sm text-white focus:outline-none focus:border-[#ff4d6d]" />
         </div>
 
         <button id="submit-login-btn" class="w-full py-3.5 px-4 mt-2 rounded-full bg-[#ff4d6d] hover:bg-[#ff3358] text-white font-bold text-xs tracking-wider uppercase transition-all shadow-md cursor-pointer">
           Enter Sanctuary &rarr;
         </button>
 
-        <button id="guest-login-btn" class="w-full py-2.5 px-4 rounded-full bg-[#242424] hover:bg-[#2d2d2d] border border-[#333333] text-[#b3b3b3] hover:text-white font-medium text-xs tracking-wider uppercase transition-all cursor-pointer text-center">
+        <button id="guest-login-btn" class="w-full py-2.5 px-4 rounded-full bg-[#1a1a24] hover:bg-[#242432] border border-[#2a2a38] text-[#a0a0b0] hover:text-white font-medium text-xs tracking-wider uppercase transition-all cursor-pointer text-center">
           Continue as Guest
         </button>
       </div>
@@ -514,7 +477,7 @@
   </div>
 
   <!-- TOAST NOTIFICATION -->
-  <div id="toast-pill" class="hidden fixed top-20 right-6 z-50 flex items-center space-x-2.5 px-4 py-2.5 rounded-full bg-[#282828] text-white text-xs font-semibold border border-[#3e3e3e] shadow-2xl">
+  <div id="toast-pill" class="hidden fixed top-20 right-6 z-50 flex items-center space-x-2.5 px-4 py-2.5 rounded-full bg-[#1c1c24] text-white text-xs font-semibold border border-[#2e2e3e] shadow-2xl">
     <span class="w-2 h-2 rounded-full bg-[#ff4d6d] animate-ping"></span>
     <span id="toast-text-body">Updated</span>
   </div>
@@ -522,7 +485,7 @@
   <!-- JAVASCRIPT APPLICATION LOGIC -->
   <script>
     (function initAuraMood() {
-      // 1. 5 DISTINCT MOOD DEFINITIONS WITH NATURAL EMPATHETIC NOTES
+      // 1. 5 DISTINCT MOOD DEFINITIONS
       const MOOD_DATA = {
         sad: {
           id: 'sad',
@@ -576,7 +539,7 @@
         }
       };
 
-      // 2. VERIFIED 100% REAL AUTHENTIC SONGS
+      // 2. VERIFIED REAL SONGS
       const REAL_MUSIC = {
         sad: [
           {
@@ -777,7 +740,7 @@
         ]
       };
 
-      // 3. MOOD-CURATED AUDIOBOOKS FOR ALL 5 MOODS
+      // 3. MOOD-CURATED AUDIOBOOKS
       const REAL_AUDIOBOOKS = {
         sad: [
           {
@@ -981,7 +944,114 @@
         }, 150);
       }
 
-      // 6. SET MOOD FUNCTION
+      // 6. PROCEDURAL SMOKY CANVAS ENGINE (ORGANIC, LOW OPACITY, 60FPS)
+      function initLiveSmokyCanvas() {
+        const canvas = document.getElementById('smoke-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+          width = canvas.width = window.innerWidth;
+          height = canvas.height = window.innerHeight;
+        });
+
+        // 16 gentle drifting smoke mist particles
+        const puffs = [];
+        const puffCount = 16;
+        for (let i = 0; i < puffCount; i++) {
+          puffs.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            radius: 200 + Math.random() * 260,
+            vx: (Math.random() - 0.5) * 0.35,
+            vy: (Math.random() - 0.5) * 0.25,
+            alpha: 0.03 + Math.random() * 0.045,
+            phase: Math.random() * Math.PI * 2,
+            type: i % 4
+          });
+        }
+
+        let mouseX = width / 2, mouseY = height / 2;
+        window.addEventListener('mousemove', (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+        });
+
+        let t = 0;
+        function renderSmoke() {
+          t += 0.006;
+          ctx.fillStyle = '#09090c';
+          ctx.fillRect(0, 0, width, height);
+
+          puffs.forEach(p => {
+            p.x += p.vx + Math.sin(t + p.phase) * 0.2;
+            p.y += p.vy + Math.cos(t + p.phase) * 0.18;
+
+            // Soft drift from mouse
+            const dx = mouseX - p.x;
+            const dy = mouseY - p.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 320 && dist > 1) {
+              p.x -= (dx / dist) * 0.35;
+              p.y -= (dy / dist) * 0.35;
+            }
+
+            // Wrap edges
+            if (p.x < -p.radius) p.x = width + p.radius;
+            if (p.x > width + p.radius) p.x = -p.radius;
+            if (p.y < -p.radius) p.y = height + p.radius;
+            if (p.y > height + p.radius) p.y = -p.radius;
+
+            const rad = p.radius * (1 + Math.sin(t * 0.6 + p.phase) * 0.1);
+            const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rad);
+
+            const activeMoodAccent = MOOD_DATA[state.currentMood] ? MOOD_DATA[state.currentMood].accent : '#ff4d6d';
+
+            if (p.type === 3) {
+              // Subtle tint matching the mood
+              grad.addColorStop(0, hexToRgba(activeMoodAccent, p.alpha * 0.8));
+              grad.addColorStop(0.5, hexToRgba(activeMoodAccent, p.alpha * 0.2));
+              grad.addColorStop(1, 'transparent');
+            } else if (p.type === 1) {
+              // Deep moody plum mist
+              grad.addColorStop(0, `rgba(45, 25, 40, ${p.alpha * 1.1})`);
+              grad.addColorStop(0.6, `rgba(20, 15, 24, ${p.alpha * 0.3})`);
+              grad.addColorStop(1, 'transparent');
+            } else {
+              // Soft charcoal mist
+              grad.addColorStop(0, `rgba(32, 34, 46, ${p.alpha * 1.2})`);
+              grad.addColorStop(0.6, `rgba(16, 17, 24, ${p.alpha * 0.35})`);
+              grad.addColorStop(1, 'transparent');
+            }
+
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, rad, 0, Math.PI * 2);
+            ctx.fill();
+          });
+
+          // Soft subtle edge vignette
+          const vignette = ctx.createRadialGradient(width/2, height/2, width * 0.25, width/2, height/2, width * 0.8);
+          vignette.addColorStop(0, 'transparent');
+          vignette.addColorStop(1, 'rgba(9, 9, 12, 0.85)');
+          ctx.fillStyle = vignette;
+          ctx.fillRect(0, 0, width, height);
+
+          requestAnimationFrame(renderSmoke);
+        }
+        renderSmoke();
+      }
+
+      function hexToRgba(hex, alpha) {
+        let c = hex.replace('#', '');
+        if (c.length === 3) c = c.split('').map(x => x + x).join('');
+        const num = parseInt(c, 16);
+        return `rgba(${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}, ${alpha})`;
+      }
+
+      // 7. SET MOOD FUNCTION (UPDATES 1-SONG & 1-BOOK SPOTLIGHT + PALETTE)
       function setMood(moodKey, triggerVoice = true) {
         state.currentMood = moodKey;
         const mood = MOOD_DATA[moodKey] || MOOD_DATA.sad;
@@ -989,11 +1059,9 @@
         // Update Navbar badge
         document.getElementById('nav-mood-badge').textContent = mood.emoji + ' ' + mood.title;
 
-        // Subtle live smoky tint update
-        const smokeEl = document.getElementById('live-mood-smoke');
-        if (smokeEl) {
-          smokeEl.style.background = `radial-gradient(circle, ${mood.accent}33 0%, ${mood.accent}0d 55%, transparent 80%)`;
-        }
+        // Update Camera Ring Accent
+        const ring = document.getElementById('camera-aura-ring');
+        if (ring) ring.style.borderColor = mood.accent + '66';
 
         // Update Empathetic Note Card
         document.getElementById('note-emoji-avatar').textContent = mood.emoji;
@@ -1006,7 +1074,7 @@
           if (btn.dataset.mood === moodKey) {
             btn.className = 'px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#ff4d6d] text-white shadow';
           } else {
-            btn.className = 'px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#242424] hover:bg-[#2d2d2d] text-[#b3b3b3] hover:text-white';
+            btn.className = 'px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer bg-[#16161e] hover:bg-[#22222c] text-[#a0a0b0] hover:text-white border border-[#242430]';
           }
         });
 
@@ -1057,10 +1125,11 @@
         }
       };
 
-      // 7. REAL WEBCAM FACIAL EMOTION SCANNER
+      // 8. REAL WEBCAM FACIAL EMOTION SCANNER
       const videoEl = document.getElementById('webcam-video');
       const cameraStandby = document.getElementById('camera-standby-view');
       const cameraHud = document.getElementById('camera-scanning-hud');
+      const cameraBeam = document.getElementById('camera-radar-beam');
       const startScanBtn = document.getElementById('start-scan-btn');
       const startScanBtnText = document.getElementById('start-scan-btn-text');
       const stopScanBtn = document.getElementById('stop-scan-btn');
@@ -1084,6 +1153,7 @@
           videoEl.classList.remove('hidden');
           cameraStandby.classList.add('hidden');
           cameraHud.classList.remove('hidden');
+          cameraBeam.classList.remove('hidden');
           stopScanBtn.classList.remove('hidden');
           startScanBtnText.textContent = 'Scanning...';
 
@@ -1110,7 +1180,7 @@
             if (state.scanSecondsLeft === 7) {
               scanStatusText.textContent = 'Measuring Warmth...';
             } else if (state.scanSecondsLeft === 4) {
-              scanStatusText.textContent = 'Balancing Vibe...';
+              scanStatusText.textContent = 'Harmonizing Vibe...';
             } else if (state.scanSecondsLeft === 1) {
               scanStatusText.textContent = 'Curating Pair...';
             } else if (state.scanSecondsLeft <= 0) {
@@ -1160,12 +1230,14 @@
         videoEl.classList.add('hidden');
         cameraStandby.classList.remove('hidden');
         cameraHud.classList.add('hidden');
+        cameraBeam.classList.add('hidden');
         stopScanBtn.classList.add('hidden');
         startScanBtnText.textContent = 'Start 10-Second Mood Scan';
       }
 
       function finishScan() {
         cameraHud.classList.add('hidden');
+        cameraBeam.classList.add('hidden');
         startScanBtnText.textContent = 'Scan Again (10s)';
 
         const avgBrightness = scanSampleCount ? (scanBrightnessSum / scanSampleCount) : 128;
@@ -1221,7 +1293,7 @@
         showToast(state.voiceComfortEnabled ? 'AI Voice Enabled' : 'AI Voice Muted');
       };
 
-      // 8. RENDER MUSIC GRID (SPOTIFY-STYLE TILE CARDS)
+      // 9. RENDER MUSIC GRID (SPOTIFY ALBUM TILES)
       function renderMusicGrid() {
         const container = document.getElementById('music-cards-container');
         container.innerHTML = '';
@@ -1239,18 +1311,18 @@
           const saved = state.savedBookmarks.some(b => b.id === song.id);
 
           const card = document.createElement('div');
-          card.className = 'spotify-card rounded-xl p-3 sm:p-4 border border-[#282828] flex flex-col justify-between group cursor-pointer';
+          card.className = 'spotify-card rounded-2xl p-4 flex flex-col justify-between group cursor-pointer';
           card.innerHTML = `
-            <div class="relative w-full aspect-square rounded-lg overflow-hidden bg-[#242424] mb-3">
-              <img src="${song.artwork}" alt="${song.title}" class="w-full h-full object-cover" loading="lazy" />
+            <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-[#1f1f28] mb-3 shadow-md">
+              <img src="${song.artwork}" alt="${song.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               
-              <!-- Floating Play Button (Spotify Style) -->
-              <div class="play-float-btn absolute bottom-2 right-2 w-11 h-11 rounded-full bg-[#ff4d6d] hover:bg-[#ff3358] text-white flex items-center justify-center font-bold text-base shadow-xl hover:scale-105 active:scale-95 transition-transform">
+              <!-- Floating Play Button -->
+              <div class="play-float-btn absolute bottom-2.5 right-2.5 w-11 h-11 rounded-full bg-[#ff4d6d] hover:bg-[#ff3358] text-white flex items-center justify-center font-bold text-base shadow-xl hover:scale-105 active:scale-95 transition-transform">
                 ${isPlaying ? '❚❚' : '▶'}
               </div>
 
               <!-- Bookmark Button Top Right -->
-              <button class="bookmark-btn absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 hover:bg-black text-white/70 hover:text-white flex items-center justify-center transition-colors">
+              <button class="bookmark-btn absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/60 hover:bg-black text-white/70 hover:text-white flex items-center justify-center transition-colors">
                 <svg class="w-3.5 h-3.5 ${saved ? 'fill-[#ff4d6d] stroke-[#ff4d6d]' : 'fill-none stroke-current'}" viewBox="0 0 24 24" stroke-width="2">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                 </svg>
@@ -1259,10 +1331,10 @@
 
             <div class="space-y-1 min-w-0">
               <h3 class="font-bold text-sm text-white truncate ${isPlaying ? 'text-[#ff4d6d]' : ''}">${song.title}</h3>
-              <p class="text-xs text-[#b3b3b3] truncate">${song.artist}</p>
-              <div class="pt-1 flex items-center justify-between text-[10px] text-[#808080]">
+              <p class="text-xs text-[#a0a0b0] truncate">${song.artist}</p>
+              <div class="pt-1.5 flex items-center justify-between text-[10px] text-[#78788a]">
                 <span class="truncate">${song.genre}</span>
-                <span class="text-[#1ed760] hover:underline" onclick="window.open('https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist)}', '_blank'); event.stopPropagation();">Spotify ↗</span>
+                <span class="text-[#1ed760] font-semibold hover:underline" onclick="window.open('https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist)}', '_blank'); event.stopPropagation();">Spotify ↗</span>
               </div>
             </div>
           `;
@@ -1284,7 +1356,7 @@
         });
       }
 
-      // 9. RENDER AUDIOBOOKS GRID (SPOTIFY-STYLE BOOK TILES)
+      // 10. RENDER AUDIOBOOKS GRID (SPOTIFY BOOK TILES)
       function renderBooksGrid() {
         const container = document.getElementById('books-cards-container');
         container.innerHTML = '';
@@ -1296,18 +1368,18 @@
           const saved = state.savedBookmarks.some(b => b.id === book.id);
 
           const card = document.createElement('div');
-          card.className = 'spotify-card rounded-xl p-3 sm:p-4 border border-[#282828] flex flex-col justify-between group cursor-pointer';
+          card.className = 'spotify-card rounded-2xl p-4 flex flex-col justify-between group cursor-pointer';
           card.innerHTML = `
-            <div class="relative w-full aspect-[3/4] rounded-lg overflow-hidden bg-[#242424] mb-3 flex items-center justify-center p-2">
-              <img src="${book.coverUrl}" alt="${book.title}" class="h-full w-auto object-contain rounded" loading="lazy" />
+            <div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-[#1f1f28] mb-3 flex items-center justify-center p-2.5 shadow-md">
+              <img src="${book.coverUrl}" alt="${book.title}" class="h-full w-auto object-contain rounded group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               
               <!-- Floating Narrate Button -->
-              <div class="play-float-btn absolute bottom-2 right-2 w-10 h-10 rounded-full bg-[#ff4d6d] hover:bg-[#ff3358] text-white flex items-center justify-center font-bold text-sm shadow-xl hover:scale-105 active:scale-95 transition-transform">
+              <div class="play-float-btn absolute bottom-2.5 right-2.5 w-10 h-10 rounded-full bg-[#ff4d6d] hover:bg-[#ff3358] text-white flex items-center justify-center font-bold text-sm shadow-xl hover:scale-105 active:scale-95 transition-transform">
                 ${isNarrating ? '❚❚' : '🎧'}
               </div>
 
               <!-- Bookmark Button -->
-              <button class="bookmark-btn absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 hover:bg-black text-white/70 hover:text-white flex items-center justify-center transition-colors">
+              <button class="bookmark-btn absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/60 hover:bg-black text-white/70 hover:text-white flex items-center justify-center transition-colors">
                 <svg class="w-3.5 h-3.5 ${saved ? 'fill-[#ff4d6d] stroke-[#ff4d6d]' : 'fill-none stroke-current'}" viewBox="0 0 24 24" stroke-width="2">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                 </svg>
@@ -1316,10 +1388,10 @@
 
             <div class="space-y-1 min-w-0">
               <h3 class="font-bold text-sm text-white truncate ${isNarrating ? 'text-[#ff4d6d]' : ''}">${book.title}</h3>
-              <p class="text-xs text-[#b3b3b3] truncate">${book.author}</p>
-              <div class="pt-1 flex items-center justify-between text-[10px] text-[#808080]">
+              <p class="text-xs text-[#a0a0b0] truncate">${book.author}</p>
+              <div class="pt-1.5 flex items-center justify-between text-[10px] text-[#78788a]">
                 <span class="truncate">${book.genre}</span>
-                <span class="hover:underline text-white/70" onclick="window.open('${book.googleBooksUrl}', '_blank'); event.stopPropagation();">Preview ↗</span>
+                <span class="hover:underline text-white font-medium" onclick="window.open('${book.googleBooksUrl}', '_blank'); event.stopPropagation();">Preview ↗</span>
               </div>
             </div>
           `;
@@ -1341,14 +1413,14 @@
         });
       }
 
-      // 10. AUDIO CONTROLS
+      // 11. AUDIO CONTROLS
       function playMusicTrack(song) {
         if ('speechSynthesis' in window) window.speechSynthesis.cancel();
         state.activeType = 'music';
         state.activeTrack = song;
         state.isPlaying = true;
         audioEl.src = song.previewUrl;
-        audioEl.play().catch(e => console.log('Audio playback wait gesture:', e));
+        audioEl.play().catch(e => console.log('Audio playback waiting gesture:', e));
         updatePlayerDock();
         renderMusicGrid();
         renderBooksGrid();
@@ -1461,15 +1533,15 @@
       document.querySelectorAll('#music-genre-tabs button').forEach(btn => {
         btn.onclick = () => {
           document.querySelectorAll('#music-genre-tabs button').forEach(b => {
-            b.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-[#242424] hover:bg-[#2d2d2d] text-[#b3b3b3] hover:text-white';
+            b.className = 'px-3.5 py-1 rounded-full text-xs font-semibold bg-[#181820] hover:bg-[#22222c] text-[#a0a0b0] hover:text-white border border-[#262632]';
           });
-          btn.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-white text-black';
+          btn.className = 'px-3.5 py-1 rounded-full text-xs font-semibold bg-white text-black';
           state.musicCategory = btn.dataset.cat;
           renderMusicGrid();
         };
       });
 
-      // 11. BOOKMARKING & SANCTUARY DRAWER
+      // 12. BOOKMARKING & SANCTUARY DRAWER
       function toggleBookmark(item, type) {
         const idx = state.savedBookmarks.findIndex(b => b.id === item.id);
         if (idx >= 0) {
@@ -1492,10 +1564,10 @@
 
         if (state.savedBookmarks.length === 0) {
           content.innerHTML = `
-            <div class="h-64 flex flex-col items-center justify-center text-center text-[#808080]">
+            <div class="h-64 flex flex-col items-center justify-center text-center text-[#78788a]">
               <span class="text-3xl mb-2">🔖</span>
               <p class="text-sm font-semibold text-white">Your library is empty</p>
-              <p class="text-xs text-[#808080] mt-1">Heart any song or audiobook to save it here.</p>
+              <p class="text-xs text-[#78788a] mt-1">Heart any song or audiobook to save it here.</p>
             </div>
           `;
           return;
@@ -1505,13 +1577,13 @@
           const isSong = b.type === 'song';
           const item = b.data;
           const row = document.createElement('div');
-          row.className = 'p-3 rounded-lg bg-[#242424] hover:bg-[#2e2e2e] border border-[#333333] flex items-center justify-between gap-3';
+          row.className = 'p-3 rounded-xl bg-[#181822] hover:bg-[#22222e] border border-[#262634] flex items-center justify-between gap-3';
           row.innerHTML = `
-            <img src="${isSong ? item.artwork : item.coverUrl}" class="w-12 h-12 rounded object-cover" />
+            <img src="${isSong ? item.artwork : item.coverUrl}" class="w-12 h-12 rounded-lg object-cover" />
             <div class="flex-1 min-w-0">
               <span class="text-[9px] font-bold uppercase text-[#ff4d6d]">${isSong ? 'Song' : 'Audiobook'}</span>
               <h4 class="text-xs font-bold text-white truncate">${item.title}</h4>
-              <p class="text-[11px] text-[#b3b3b3] truncate">${isSong ? item.artist : item.author}</p>
+              <p class="text-[11px] text-[#a0a0b0] truncate">${isSong ? item.artist : item.author}</p>
             </div>
             ${isSong ? `
               <button class="play-saved-btn px-3 py-1 rounded-full bg-white hover:bg-[#ff4d6d] text-black hover:text-white text-xs font-bold transition-colors cursor-pointer">Play</button>
@@ -1538,7 +1610,7 @@
         document.getElementById('library-drawer').classList.add('hidden');
       };
 
-      // 12. USER PROFILE & LOGIN MODAL
+      // 13. USER PROFILE & LOGIN MODAL
       const loginModal = document.getElementById('login-modal');
       function updateUserUI(user) {
         if (user) {
@@ -1581,6 +1653,7 @@
       document.getElementById('library-count-badge').textContent = state.savedBookmarks.length;
       setMood('sad', false);
       updatePlayerDock();
+      initLiveSmokyCanvas();
 
     })();
   </script>
